@@ -1,11 +1,10 @@
 <!-- #region -->
-# Problem Solving by Search
+# Search with Uncertainty / Adversarial Search
 
 ## Contents
 
-* Assignment: [Solving a maze using a goal-based Agent](Maze.ipynb)
-* Example: [Exploring heuristic values for an empty maze](Explore_heuristics.ipynb) (needs R)
-
+* Example: [Nondeterministic Actions: Solving Tic-Tac-Toe with And-Or-Tree Search](tictactoe_and_or_tree_search.ipynb)
+* Example: [Adversarial Search: Solving Tic-Tac-Toe with Minimax Search and Alpha-Beta Pruning](tictactoe_alpha_beta_tree_search.ipynb)
 
 
 ## License
