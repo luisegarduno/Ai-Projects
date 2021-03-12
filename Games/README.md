@@ -1,10 +1,16 @@
 <!-- #region -->
-# Search with Uncertainty / Adversarial Search
+# Adversarial Search and Games
 
 ## Contents
 
-* Example: [Nondeterministic Actions: Solving Tic-Tac-Toe with And-Or-Tree Search](tictactoe_and_or_tree_search.ipynb)
-* Example: [Adversarial Search: Solving Tic-Tac-Toe with Minimax Search and Alpha-Beta Pruning](tictactoe_alpha_beta_tree_search.ipynb)
+### Solving games using nondeterministic actions
+* Example: [Solving Tic-Tac-Toe with And-Or-Tree Search](https://nbviewer.jupyter.org/github/luisegarduno/Ai-Projects/blob/master/Games/tictactoe_and_or_tree_search.ipynb)
+
+### Solving games using adversarial search
+* Example: [Solving Tic-Tac-Toe with Minimax Search and Alpha-Beta Pruning](https://nbviewer.jupyter.org/github/luisegarduno/Ai-Projects/blob/master/Games/tictactoe_alpha_beta_tree_search.ipynb)
+* Example: [Solving Tic-Tac-Toe with Heuristic Alpha-Beta Tree Search](https://nbviewer.jupyter.org/github/luisegarduno/Ai-Projects/blob/master/Games/tictactoe_heuristic_alpha_beta_tree_search.ipynb)
+* Example: [Solving Tic-Tac-Toe with Pure Monte Carlo Search](https://nbviewer.jupyter.org/github/luisegarduno/Ai-Projects/blob/master/Games/tictactoe_pure_monte_carlo_search.ipynb)
+* Assignment: [Adversarial Search: Playing Connect 4](https://nbviewer.jupyter.org/github/luisegarduno/Ai-Projects/blob/master/Games/assignment_connect4.ipynb)
 
 
 ## License

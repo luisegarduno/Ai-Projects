@@ -3,8 +3,8 @@
 
 ## Contents
 
-* Assignment: [Solving a maze using a goal-based Agent](Maze.ipynb)
-* Example: [Exploring heuristic values for an empty maze](Explore_heuristics.ipynb) (needs R)
+* Assignment: [Solving a maze using a goal-based Agent](https://nbviewer.jupyter.org/github/luisegarduno/Ai-Projects/blob/master/Search/Maze.ipynb)
+* Example: [Exploring heuristic values for an empty maze](https://nbviewer.jupyter.org/github/luisegarduno/Ai-Projects/blob/master/Search/Explore_heuristics.ipynb) (needs R)
 
 
 

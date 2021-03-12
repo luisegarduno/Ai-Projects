@@ -3,7 +3,7 @@
 
 ## Contents
 
-* Assignment: [Reflex Agents for the Vacuum-cleaner World](simple_randomized_agent.ipynb)
+* Assignment: [Reflex Agents for the Vacuum-cleaner World](https://nbviewer.jupyter.org/github/luisegarduno/Ai-Projects/blob/master/Agents/simple_randomized_agent.ipynb)
 
 
 ## License

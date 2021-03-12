@@ -1,1 +1,2 @@
 *.ipynb_checkpoints
+data/mnist_cnn.h5
