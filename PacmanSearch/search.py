@@ -93,26 +93,19 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    import datetime
-    startTime = datetime.datetime.now()
-
+    
     node = problem.getStartState()
     if problem.isGoalState(node): return node
     frontier = []
-    
     reached = {}
     reached[node] = [(node, " ")]
     
     path = util.Queue()
     path.push(node)
-    # goalState = (-1,-1)
 
     while path:
         node = path.pop()
-        #if problem.isGoalState(nodes): break
-        if problem.isGoalState(node):
-            goalState = node
-            break
+        if problem.isGoalState(node): break
             
         for s in Expand(problem, node):
             if s[0] not in reached:
@@ -124,61 +117,20 @@ def breadthFirstSearch(problem):
         frontier.insert(0, x[0][1])
         x = reached[x[0][0]]
     
-#    frontier = [node]
-#
-#    while frontier:
-#        node = frontier.pop(0)
-#        for s in Expand(problem, node) or []:
-#            if problem.isGoalState(s):
-#                break
-#                #return frontier
-#            if s[0] not in reached:
-#                frontier.append(s[0])
-#                reached[s[0]] = [(node,s[1])]
-#                #print(s)
-#              
-#    x = reached[node]
-#    while (x[0][0] is not ):
-#        frontier.insert(0, x[0][1])
-#        x = reached[x[0][0]]
-        
     frontier.insert(0, x[0][1])
    
     from game import Directions
-    n = Directions.NORTH
-    e = Directions.EAST
-    w = Directions.WEST
-    s = Directions.SOUTH
-  
-    frontier = list(map(lambda b: b.replace("North", n), frontier))
-    frontier = list(map(lambda b: b.replace("East", e), frontier))
-    frontier = list(map(lambda b: b.replace("West", w), frontier))
-    frontier = list(map(lambda b: b.replace("South", s), frontier))
-    
-    endTime = datetime.datetime.now()
-    timeTaken = endTime - startTime
-    print("\nTime taken for depth search sort: ", timeTaken.microseconds / 1000, " milliseconds")
+    frontier = list(map(lambda b: b.replace("North", Directions.NORTH), frontier))
+    frontier = list(map(lambda b: b.replace("East",  Directions.EAST), frontier))
+    frontier = list(map(lambda b: b.replace("West",  Directions.WEST), frontier))
+    frontier = list(map(lambda b: b.replace("South", Directions.SOUTH), frontier))
    
-    print("FINALLY?")
     return frontier   
                  
     util.raiseNotDefined()
 
 def Expand(problem, node):
-    #for s in problem.getSuccessors(node):
-            #return s
-            #fringe_list.push(s[0])
-            #visited[s[0]] = True
-            #reached[s[0]] = [(nodes, s[1])]
-            
-    #s = node
-    #for action in problem.getSuccessors(s):
-    #    s2 = problem.getSuccessors(node)         # STATE
-        #return problem.getStartState()
-        #print(problem.getStartState())
-    #return problem.getSuccessors(s)
     return problem.getSuccessors(node)
-    #return problem.getStartState()
          
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
