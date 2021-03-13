@@ -1,2 +1,3 @@
 *.ipynb_checkpoints
+PacmanSearch/__pycache__/
 data/mnist_cnn.h5
