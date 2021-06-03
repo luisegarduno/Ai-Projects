@@ -90,19 +90,29 @@ def depthFirstSearch(problem):
     """
     util.raiseNotDefined()
 
+################################################################################
+################################################################################
+################################################################################
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
     
+    # node <-- NODE(problem.INITIAL) ###########################################
     node = problem.getStartState()
+    
+    # if problem.IS-GOAL(node.STATE) then return node ##########################
     if problem.isGoalState(node): return node
+    
+    # frontier <-- a FIFO queue, w/ node as an element #########################
     frontier = []
+    
+    # reached  <-- {problem.INITIAL} ###########################################
     reached = {}
     reached[node] = [(node, " ")]
     
     path = util.Queue()
     path.push(node)
 
+    
     while path:
         node = path.pop()
         if problem.isGoalState(node): break
