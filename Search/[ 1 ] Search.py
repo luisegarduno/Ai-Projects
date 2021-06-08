@@ -161,7 +161,7 @@ def EXPAND(problem, node):
     if r == 'senw': dir_ = NODE.move_SENW
     if r == 'wsen': dir_ = NODE.move_WSEN
 
-    dir_ = NODE.move_NESW
+    #dir_ = NODE.move_NESW
 
     # for each action in problem.ACTIONS(s) do
     for action in dir_:
