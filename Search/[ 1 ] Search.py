@@ -214,12 +214,22 @@ def BFStemp(problem, debug=False, visualize=False):
 
             # if problem.IS-GOAL(s) then return child
             if s == find_pos(problem, what='G'):
+                #x = reached[node]
+
+                problem[node] = 'P'
+                frontier.put(node)
                 x = reached[node]
+                path_length = 1
+
                 while x[0][0] is not root.position:
                     problem[x[0][0]] = 'P'
-                    frontier.put(x, x[0][1])
+                    #frontier.put(x, x[0][1])
+                    frontier.put(x)
                     x = reached[x[0][0]]
-                print("Path length:", frontier.qsize())
+
+                    path_length += 1
+
+                print("Path length:", path_length)
                 print("Reached squares:", len(reached))
 
                 return child
@@ -231,7 +241,9 @@ def BFStemp(problem, debug=False, visualize=False):
 
                 # add s to reached
                 reached[s] = [(node, child[1])]
-                if look(problem, s) == ' ' and look(problem, s) != '.': problem[s] = 'F'
+                #if look(problem, s) == ' ' and look(problem, s) != '.': problem[s] = 'F'
+                if look(problem, s) != '.': problem[s] = 'F'
+                elif look(problem, s) == 'F': problem[s] = '.'
             else:
                 if look(problem, s) == 'F': problem[s] = '.'
 
@@ -414,8 +426,80 @@ def UniformCostSearch(problem):
 # -------------------------------------------------------------------
 
 
-def DepthFirstSearch():
-    print("DepthFirstSearch")
+def DepthFirstSearch(problem, debug=False, visualize=False):
+    # node <-- NODE(problem.INITIAL) then return node
+    root = NODE(position=find_pos(problem, what='S'), parent=None, action=None, cost=0)
+
+    # if problem.IS-GOAL(node.STATE) then return node
+    if find_pos(problem, what='G') == root.position: return root.position
+
+    # frontier <-- a LIFO queue (stack), w/ node as an element
+    frontier = []
+    frontier.append(root.position)
+
+    # reached <-- {problem.INITIAL}
+    reached = {root.position: [root.position, " "]}
+
+    # while not IS-EMPTY(frontier) do
+    while len(frontier) != 0:
+
+        # node <-- POP(frontier)
+        node = frontier.pop()
+
+        # for each child in EXPAND(problem, node) do
+        for child in EXPAND(problem, node):
+
+            # s <-- child.STATE
+            s = child[0]
+
+            # if problem.IS-GOAL(s) then return child
+            if s == find_pos(problem, what='G'):
+                #x = reached[node]
+
+                #print(node, " <-- Dude")
+
+                problem[node] = 'P'
+                frontier.append(node)
+                x = reached[node]
+                path_length = 1
+
+
+                while x[0][0] is not root.position:
+                    problem[x[0][0]] = 'P'
+
+                    frontier.append(x[0][1])
+
+                    if debug: print("Current Location: ", x[0][0], " | New Location + Frontier:", reached[x[0][0]])
+                    if visualize: show_maze(problem)
+
+                    x = reached[x[0][0]]
+
+                    path_length += 1
+
+                print("Path length:", path_length)
+                print("Reached squares:", len(reached))
+
+                return child
+
+            # if s is not reached then
+            if s not in reached:
+                # add child to frontier
+                frontier.append(s)
+
+                # add s to reached
+                reached[s] = [(node, child[1])]
+                #if look(problem, s) == ' ' and look(problem, s) != '.': problem[s] = 'F'
+                #if look(problem, s) == ' ': problem[s] = 'P'
+                if look(problem, s) != '.': problem[s] = 'F'
+            else:
+                #if look(problem, s) == 'P': problem[s] = 'F'
+                if look(problem, s) == 'F': problem[s] = '.'
+
+
+        if visualize: show_maze(problem)
+
+
+    return frontier
 
 # -------------------------------------------------------------------
 # Greedy Best First-Search ------------------------------------------
