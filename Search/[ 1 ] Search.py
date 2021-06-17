@@ -185,69 +185,6 @@ def EXPAND(problem, node):
 ####################################################################
 
 
-def BFStemp(problem, debug=False, visualize=False):
-
-    # node <-- NODE(problem.INITIAL) then return node
-    root = NODE(position=find_pos(problem, what='S'), parent=None, action=None, cost=0)
-
-    # if problem.IS-GOAL(node.STATE) then return node
-    if find_pos(problem, what='G') == root.position: return root.position
-
-    # frontier <-- a FIFO queue, w/ node as an element
-    frontier = queue.Queue()
-    frontier.put(root.position)
-
-    # reached <-- {problem.INITIAL}
-    reached = {root.position: [root.position, " "]}
-
-    # while not IS-EMPTY(frontier) do
-    while not frontier.empty():
-
-        # node <-- POP(frontier)
-        node = frontier.get()
-
-        # for each child in EXPAND(problem, node) do
-        for child in EXPAND(problem, node):
-
-            # s <-- child.STATE
-            s = child[0]
-
-            # if problem.IS-GOAL(s) then return child
-            if s == find_pos(problem, what='G'):
-                #x = reached[node]
-
-                problem[node] = 'P'
-                frontier.put(node)
-                x = reached[node]
-                path_length = 1
-
-                while x[0][0] is not root.position:
-                    problem[x[0][0]] = 'P'
-                    #frontier.put(x, x[0][1])
-                    frontier.put(x)
-                    x = reached[x[0][0]]
-
-                    path_length += 1
-
-                print("Path length:", path_length)
-                print("Reached squares:", len(reached))
-
-                return child
-
-            # if s is not reached then
-            if s not in reached:
-                # add child to frontier
-                frontier.put(s)
-
-                # add s to reached
-                reached[s] = [(node, child[1])]
-                #if look(problem, s) == ' ' and look(problem, s) != '.': problem[s] = 'F'
-                if look(problem, s) != '.': problem[s] = 'F'
-                elif look(problem, s) == 'F': problem[s] = '.'
-            else:
-                if look(problem, s) == 'F': problem[s] = '.'
-
-    return frontier
 
 # -------------------------------------------------------------------
 # Best First-Search -------------------------------------------------
@@ -306,112 +243,67 @@ def BreadthFirstSearch(problem, debug=False, visualize=False):
     root = NODE(position=find_pos(problem, what='S'), parent=None, action=None, cost=0)
 
     # if problem.IS-GOAL(node.STATE) then return node
-    if find_pos(problem, 'G') == root.position:
-        if debug: print("Arrived @ Goal: Returning...")
-        return root
+    if find_pos(problem, what='G') == root.position: return root.position
 
     # frontier <-- a FIFO queue, w/ node as an element
     frontier = queue.Queue()
-    frontier.put(root)
+    frontier.put(root.position)
 
     # reached <-- {problem.INITIAL}
-    #reached = [(root.position, " ")]
-
-    # reached = {root.position: [(root.position, " ")]}
-    reached = {root.position}
+    reached = {root.position: [root.position, " "]}
 
     # while not IS-EMPTY(frontier) do
-    path_counter = 0
     while not frontier.empty():
-        if debug: print("Frontier NOT empty")
 
         # node <-- POP(frontier)
-        # node = NODE(position=(0,0), parent=node, action=None, cost=1)
         node = frontier.get()
-        if find_pos(problem, what='G') == node: break
-        # node.position = frontier.get()
-        # node2 = NODE(position=frontier.get(), parent=node, action=None, cost=1)
-        # node2 = frontier.get()
-        # print("UH", node2)
-        # if find_pos(problem, what='G') == node: break
-        # head = frontier.get()
-        # if find_pos(problem, what='G') == head: break
-        # head = NODE(position=head.position, parent=head.parent, action=head.action, cost=head.cost)
-        
-        path_counter += 1
-        
-        # root.position = node.position
-        # root = root.position
 
         # for each child in EXPAND(problem, node) do
         for child in EXPAND(problem, node):
-            
+
             # s <-- child.STATE
             s = child[0]
-            # if debug: print(s,"--> :", problem[s])
 
             # if problem.IS-GOAL(s) then return child
-            if find_pos(problem, what='G') == s:
-                # if debug: print("Hiya", child.getPathFromRoot())
-                print("Path length:", len(child))
-                # print("Path length:", len(child.getPathFromRoot()))
-                print("Reached squares:", path_counter)
-                #break
-                # print("HERE: ", child)
+            if s == find_pos(problem, what='G'):
+                problem[node] = 'P'
+                #frontier.put(node)
+                x = reached[node]
+                path_length = 1
+
+                while x[0][0] is not root.position:
+                    problem[x[0][0]] = 'P'
+                    
+                    frontier.put(x)
+                    
+                    if debug: print("[", path_length+1, "] Current Location: ", x[0][0], " | New Location + Frontier:", reached[x[0][0]])
+                    if visualize: show_maze(problem)
+                    
+                    path_length += 1
+                    x = reached[x[0][0]]
+                    
+                #frontier.put(0)
+                print("Path length:", frontier.qsize())
+                print("Reached squares:", len(reached))
+
                 return child
 
-            # if s is not in reached then
+            # if s is not reached then
             if s not in reached:
-                if debug: print("Current Position: ", s)
-                
+                # add child to frontier
+                frontier.put(s)
+
                 # add s to reached
-                #reached[s] = [child]
-                reached.add(s)
-                #reached.append(s)
-                #reached.add(s)
-                #reached.append(child)
-
-                # add child to frontier 
-                frontier.put(child)
-                
-                #if find_pos(problem, what='G') != s:
-                #    if problem[s] == ' ' and problem[s] != '.': problem[s] = 'F'
-                    #if look(problem, child) == ' ':
-                        #if look(problem, child) != '.': problem[s] = 'F'
-
-                    #if debug: print('Adding to frontier', s)
+                reached[s] = [(node, child[1])]
+                if look(problem, s) != '.': problem[s] = 'F'
                     
-            #elif child in reached and look(problem, child) != 'S':
-            #elif child in reached: problem[s] = '.'
+            else:
+                if look(problem, s) == 'F': problem[s] = '.'
 
-    # x = child.getPathFromRoot()
-    # x = child.getPathFromRoot()
-    # for n in x:
-        # print("HERE:", n.position)
-                
-    # print("Positions:", [n.position for n in x])
-    # for n in x:
-        # dx, dy = n
-        # print (n)
-        # if find_pos(problem, what="S") != problem[n]:
-        # problem[(n)] = 'P'
-    # x = reached[node]
-    # path_length = x.parent
-    # print("Path Length: ", path_length)
-    # while len(reached) != 0:
-    #    x = reached.pop()
-    #    print("Adding: ", x)
-    #    problem[x] = 'P'
-    #    if debug: print()
-        # frontier.put(0,x[1])
-        # x = reached[x]
-        
-    # frontier.insert(0,[0,1])
-    # print("Path length:", len(frontier))
-        
-        # print(x)
-
+        if visualize: show_maze(problem) 
+                    
     return frontier
+
 
 # -------------------------------------------------------------------
 # Uniform Cost-Search / Dijkstra's Algorithm ------------------------
@@ -454,29 +346,24 @@ def DepthFirstSearch(problem, debug=False, visualize=False):
 
             # if problem.IS-GOAL(s) then return child
             if s == find_pos(problem, what='G'):
-                #x = reached[node]
-
-                #print(node, " <-- Dude")
-
                 problem[node] = 'P'
-                frontier.append(node)
+                #frontier.append(node)
                 x = reached[node]
+                
                 path_length = 1
-
 
                 while x[0][0] is not root.position:
                     problem[x[0][0]] = 'P'
 
                     frontier.append(x[0][1])
 
-                    if debug: print("Current Location: ", x[0][0], " | New Location + Frontier:", reached[x[0][0]])
+                    if debug: print("[", path_length+1, "] Current Location: ", x[0][0], " | New Location + Frontier:", reached[x[0][0]])
                     if visualize: show_maze(problem)
 
+                    path_length += 1
                     x = reached[x[0][0]]
 
-                    path_length += 1
-
-                print("Path length:", path_length)
+                print("Path length:", len(frontier) - 1)
                 print("Reached squares:", len(reached))
 
                 return child
@@ -488,16 +375,12 @@ def DepthFirstSearch(problem, debug=False, visualize=False):
 
                 # add s to reached
                 reached[s] = [(node, child[1])]
-                #if look(problem, s) == ' ' and look(problem, s) != '.': problem[s] = 'F'
-                #if look(problem, s) == ' ': problem[s] = 'P'
                 if look(problem, s) != '.': problem[s] = 'F'
+                    
             else:
-                #if look(problem, s) == 'P': problem[s] = 'F'
                 if look(problem, s) == 'F': problem[s] = '.'
 
-
-        if visualize: show_maze(problem)
-
+        if visualize: show_maze(problem) 
 
     return frontier
 
