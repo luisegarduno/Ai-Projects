@@ -190,44 +190,60 @@ def EXPAND(problem, node):
 # Best First-Search -------------------------------------------------
 # -------------------------------------------------------------------
 
-def BestFirstSearch(problem, f=1):
+from queue import PriorityQueue
+
+def BestFirstSearch(problem, f=1, debug=False, visualize=False):
 
     # node <-- NODE(STATE=problem.INITIAL)
     root = NODE(position=find_pos(problem, 'S'), parent=None, action=None, cost=0)
 
     # frontier <-- a priority queue ordered by f, with a node as an element
-    frontier = queue.Queue()
+    frontier = PriorityQueue()
     frontier.put(root.position)
 
     # reached <-- a lookup table, with one entry with key problem.INITIAL & value node
-    reached = {root.position: [(root.position, root.cost)]}
+    #reached = {root.position: [(root.position, root.cost)]}
+    reached = {root.position: [root.position, " "]}
 
     # while not is-empty(frontier) do
     while not frontier.empty():
 
-        # node <-- pop(frontier)
-        # temp_node = frontier.get()
-        # node = NODE(frontier.get())
+        # node <-- POP(frontier)
         node = frontier.get()
 
         # if problem.IS-GOAL(node.STATE) then return node
-        if node.position == find_pos(problem, 'G'): return node
+        #if node.position == find_pos(problem, 'G'): return node
+        
+        if node.position == find_pos(problem, what='G') : return node
 
         # for each child in EXPAND(problem, node) do
         for child in EXPAND(problem, node):
 
             # s <-- child.STATE
-            s = child
+            s = child[0]
 
             # if s is not in reached or child.PATH-COST < reached[s].PATH-COST then
-            if (s not in reached) or (child.cost < reached[s].cost):
+            if s not in reached or child.cost < reached[s].cost:
+                # add child to frontier
+                frontier.put(s)
+
+                # add s to reached
+                reached[s] = [(node, child[1])]
+                if look(problem, s) != '.': problem[s] = 'F'
+                    
+            else:
+                if look(problem, s) == 'F': problem[s] = '.'
+
+        if visualize: show_maze(problem)
+            
+            # if s is not in reached or child.PATH-COST < reached[s].PATH-COST then
+            #if (s not in reached) or (child.cost < reached[s].cost):
 
                 # reached[s] <-- child
-                reached[s] = child
+                #reached[s] = child
 
                 # add child to frontier
-                frontier.put(child)
-
+                #frontier.put(child)
 
 
     return frontier
